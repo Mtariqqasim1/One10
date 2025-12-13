@@ -20,7 +20,8 @@
             --border: #e5e5e5;
         }
         
-        body { background: var(--white); color: var(--black); overflow-x: hidden; scroll-behavior: smooth; }
+        /* Body padding-bottom added so content isn't hidden behind bottom bar */
+        body { background: var(--white); color: var(--black); overflow-x: hidden; scroll-behavior: smooth; padding-bottom: 80px; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         img { width: 100%; display: block; transition: transform 0.6s ease; }
         button { cursor: pointer; border: none; outline: none; }
@@ -49,28 +50,38 @@
         .btn-primary:hover::after { width: 100%; }
         .btn-primary:hover { border-radius: 4px; }
 
-        /* --- 2. HEADER --- */
+        /* --- 2. HEADER (Clean Logo Only) --- */
         header { 
             position: fixed; top: 0; left: 0; width: 100%; padding: 15px 0; z-index: 1000; 
-            background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); 
-            border-bottom: 1px solid rgba(0,0,0,0.05); transition: 0.3s;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); 
+            border-bottom: 1px solid rgba(0,0,0,0.05); text-align: center;
         }
-        .header-inner { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 26px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
-        
-        .nav-desktop { display: flex; gap: 35px; }
-        .nav-desktop a { font-size: 12px; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; position: relative; }
-        .nav-desktop a::after { content: ''; width: 0; height: 1px; background: black; position: absolute; bottom: -4px; left: 0; transition: 0.3s; }
-        .nav-desktop a:hover::after { width: 100%; }
+        .logo { font-size: 26px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; display: inline-block; }
 
-        .header-icons { display: flex; gap: 20px; font-size: 22px; cursor: pointer; }
-        .cart-badge { background: var(--black); color: white; font-size: 10px; width: 18px; height: 18px; border-radius: 50%; position: absolute; top: -5px; right: -8px; display: flex; justify-content: center; align-items: center; }
-        .mobile-toggle { display: none; }
+        /* --- NEW BOTTOM NAVIGATION BAR --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: #fff; border-top: 1px solid #eee;
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 12px 0; z-index: 2000;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+        .nav-icon {
+            font-size: 24px; color: #555; cursor: pointer; position: relative;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 0.3s; width: 50px; height: 50px; border-radius: 50%;
+        }
+        .nav-icon:hover, .nav-icon.active { color: var(--black); background: #f5f5f5; }
+        .cart-badge { 
+            background: var(--black); color: white; font-size: 10px; width: 18px; height: 18px; 
+            border-radius: 50%; position: absolute; top: 5px; right: 5px; 
+            display: flex; justify-content: center; align-items: center; border: 2px solid white;
+        }
 
         /* --- 3. MOBILE MENU --- */
         .mobile-menu { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
-            background: white; z-index: 2000; padding: 40px; 
+            background: white; z-index: 3000; padding: 40px; 
             transform: translateY(-100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
             display: flex; flex-direction: column; justify-content: space-between;
         }
@@ -80,7 +91,7 @@
         .menu-links a:hover { color: var(--black); padding-left: 10px; }
 
         /* --- 4. HERO SLIDER --- */
-        .hero-slider { height: 100vh; position: relative; overflow: hidden; }
+        .hero-slider { height: 100vh; position: relative; overflow: hidden; margin-top: 0; }
         .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; display: flex; align-items: center; justify-content: center; }
         .slide.active { opacity: 1; }
         .slide-bg { 
@@ -90,17 +101,17 @@
         .slide.active .slide-bg { transform: scale(1.1); }
         .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.25); }
         
-        .slide-content { position: relative; z-index: 2; text-align: center; color: white; }
-        .slide-content h1 { font-size: 70px; text-transform: uppercase; margin-bottom: 25px; line-height: 1.1; letter-spacing: -1px; animation: slideUp 1s ease forwards; }
+        .slide-content { position: relative; z-index: 2; text-align: center; color: white; padding-top: 60px; }
+        .slide-content h1 { font-size: 50px; md:font-size: 70px; text-transform: uppercase; margin-bottom: 25px; line-height: 1.1; letter-spacing: -1px; animation: slideUp 1s ease forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- 5. CATEGORY CIRCLES --- */
         .cat-section { padding: 100px 0; text-align: center; background: #fff; }
-        .cat-grid { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; margin-top: 50px; }
+        .cat-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 50px; }
         .cat-item { cursor: pointer; group; }
         .cat-img { 
-            width: 140px; height: 140px; border-radius: 50%; overflow: hidden; margin-bottom: 20px; 
-            border: 1px solid transparent; transition: 0.3s; position: relative;
+            width: 120px; height: 120px; border-radius: 50%; overflow: hidden; margin-bottom: 15px; 
+            border: 1px solid transparent; transition: 0.3s; position: relative; margin-left: auto; margin-right: auto;
         }
         .cat-img img { height: 100%; object-fit: cover; transition: 0.5s; }
         .cat-item:hover .cat-img { border-color: var(--black); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
@@ -108,24 +119,27 @@
         .cat-item h4 { text-transform: uppercase; font-size: 13px; letter-spacing: 2px; font-weight: 600; }
 
         /* --- 6. TRENDING FEATURE --- */
-        .trending-feature { display: flex; flex-direction: column; md:flex-row; height: auto; md:height: 600px; margin: 80px 0; background: var(--light-gray); }
+        .trending-feature { display: flex; flex-direction: column; md:flex-row; height: auto; margin: 80px 0; background: var(--light-gray); }
         @media(min-width: 768px) { .trending-feature { flex-direction: row; height: 600px; } }
         .trend-img-box { flex: 1; overflow: hidden; }
         .trend-img-box img { height: 100%; object-fit: cover; }
-        .trend-content-box { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 80px; text-align: left; }
-        .trend-title { font-size: 45px; text-transform: uppercase; line-height: 1.1; margin: 20px 0; }
+        .trend-content-box { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 40px; text-align: left; }
+        .trend-title { font-size: 35px; md:font-size: 45px; text-transform: uppercase; line-height: 1.1; margin: 20px 0; }
 
-        /* --- 7. PRODUCTS GRID (Updated for 2 Cols Mobile) --- */
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 40px; padding-bottom: 100px; }
+        /* --- 7. PRODUCTS GRID --- */
+        .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding-bottom: 50px; }
+        @media(min-width: 768px) { .products-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 40px; } }
+        
         .product-card { cursor: pointer; transition: 0.4s; position: relative; }
         .product-card:hover { transform: translateY(-10px); }
-        .p-img { height: 380px; background: #f0f0f0; overflow: hidden; margin-bottom: 15px; position: relative; }
+        .p-img { height: 220px; background: #f0f0f0; overflow: hidden; margin-bottom: 15px; position: relative; }
+        @media(min-width: 768px) { .p-img { height: 380px; } }
         .p-img img { height: 100%; object-fit: cover; transition: 0.6s; }
         .product-card:hover img { transform: scale(1.08); }
-        .p-info h4 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .p-info h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
 
         /* --- 8. FOOTER --- */
-        footer { background: #111; color: white; padding: 80px 0 30px; }
+        footer { background: #111; color: white; padding: 80px 0 100px; /* Extra padding for bottom nav */ }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; padding-bottom: 60px; border-bottom: 1px solid #333; }
         .footer-col h4 { font-size: 16px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
         .footer-col ul li { margin-bottom: 15px; }
@@ -136,9 +150,9 @@
         .social-icons i:hover { color: white; transform: scale(1.1); }
         .footer-bottom { text-align: center; padding-top: 30px; font-size: 12px; color: #666; }
 
-        /* --- 9. SCROLL TO TOP BTN (New) --- */
+        /* --- 9. SCROLL TO TOP BTN (Moved Up) --- */
         .scroll-top {
-            position: fixed; bottom: 30px; right: 30px;
+            position: fixed; bottom: 90px; right: 20px;
             width: 45px; height: 45px; background: var(--black); color: white;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-size: 20px; cursor: pointer; opacity: 0; pointer-events: none;
@@ -156,60 +170,34 @@
         .cart-drawer.open { right: 0; }
         .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2400; display: none; backdrop-filter: blur(2px); }
         
-        .pdp-wrapper { padding: 120px 0; display: flex; gap: 60px; flex-wrap: wrap; }
+        .pdp-wrapper { padding: 100px 0; display: flex; gap: 60px; flex-wrap: wrap; }
         .size-btn { 
             width: 45px; height: 45px; border: 1px solid #ddd; display: inline-flex; 
             align-items: center; justify-content: center; margin-right: 10px; cursor: pointer; transition: 0.2s; 
         }
         .size-btn:hover, .size-btn.active { background: black; color: white; border-color: black; }
         
-        .checkout-form { max-width: 600px; margin: 100px auto; padding: 50px; border: 1px solid #eee; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .checkout-form { max-width: 600px; margin: 100px auto; padding: 30px; border: 1px solid #eee; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .form-group input { width: 100%; padding: 15px; border: 1px solid #e0e0e0; outline: none; transition: 0.3s; background: #fdfdfd; }
         .form-group input:focus { border-color: black; background: white; }
 
-        /* RESPONSIVE (Updated) */
         @media (max-width: 768px) {
-            .nav-desktop { display: none; }
-            .mobile-toggle { display: block; font-size: 24px; cursor: pointer; }
-            .trending-feature { flex-direction: column; height: auto; }
-            .trend-img-box { height: 400px; }
-            .trend-content-box { padding: 40px 20px; }
             .hero-slider h1 { font-size: 40px; }
-            .cat-grid { gap: 20px; }
-            
-            /* 2 Columns on Mobile */
-            .products-grid { 
-                grid-template-columns: repeat(2, 1fr); 
-                gap: 15px; 
-            }
-            .p-img { height: 220px; } /* Smaller image height for mobile */
-            .p-info h4 { font-size: 13px; }
+            .pdp-wrapper { padding-top: 80px; }
+            .checkout-form { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- TOP HEADER (Logo Only) -->
     <header>
-        <div class="container header-inner">
-            <div class="mobile-toggle" onclick="toggleMenu()"><i class="ri-menu-4-line"></i></div>
+        <div class="container">
             <a href="#" class="logo" onclick="route('home')">ONE10</a>
-            <nav class="nav-desktop">
-                <a onclick="route('home')">Home</a>
-                <a onclick="filterProducts('Men')">Men</a>
-                <a onclick="filterProducts('Women')">Women</a>
-                <a onclick="filterProducts('Hoodie')">Hoodies</a>
-            </nav>
-            <div class="header-icons">
-                <div style="position:relative;" onclick="toggleCart()">
-                    <i class="ri-shopping-bag-line"></i>
-                    <div class="cart-badge" id="cart-count">0</div>
-                </div>
-            </div>
         </div>
     </header>
 
-    <!-- MOBILE MENU -->
+    <!-- MOBILE MENU OVERLAY -->
     <div class="mobile-menu" id="mobile-menu">
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:20px;">
             <span class="logo">One10</span>
@@ -291,7 +279,7 @@
         </div>
 
         <!-- 2. SHOP VIEW -->
-        <div id="view-shop" class="hidden container fade-in" style="padding-top:120px;">
+        <div id="view-shop" class="hidden container fade-in" style="padding-top:100px;">
             <h2 id="page-title" style="text-align:center; text-transform:uppercase; margin-bottom:60px; letter-spacing:2px;">Shop</h2>
             <div class="products-grid" id="shop-grid"></div>
         </div>
@@ -322,7 +310,7 @@
         </div>
 
         <!-- 4. CHECKOUT VIEW -->
-        <div id="view-checkout" class="hidden container fade-in" style="padding-top:120px;">
+        <div id="view-checkout" class="hidden container fade-in" style="padding-top:100px;">
             <div class="checkout-form">
                 <h2 style="text-align:center; margin-bottom:40px; text-transform:uppercase; letter-spacing:2px;">Secure Checkout</h2>
                 <form onsubmit="placeOrder(event)">
@@ -348,253 +336,17 @@
 
     </main>
 
-    <!-- SCROLL TO TOP BUTTON -->
-    <div class="scroll-top" id="scrollTopBtn" onclick="scrollToTop()">
-        <i class="ri-arrow-up-line"></i>
-    </div>
-
-    <!-- ENHANCED FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3 style="font-size:24px; font-weight:800; letter-spacing:2px; margin-bottom:20px;">ONE10</h3>
-                    <p style="color:#999; font-size:13px; line-height:1.6;">Premium fashion destination redefining luxury with sustainable practices and timeless aesthetics.</p>
-                    <div class="social-icons">
-                        <i class="ri-instagram-line"></i>
-                        <i class="ri-facebook-circle-fill"></i>
-                        <i class="ri-twitter-x-line"></i>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Shop</h4>
-                    <ul>
-                        <li><a onclick="filterProducts('Men')">Men's Collection</a></li>
-                        <li><a onclick="filterProducts('Women')">Women's Collection</a></li>
-                        <li><a onclick="filterProducts('Hoodie')">Winter Essentials</a></li>
-                        <li><a onclick="filterProducts('all')">New Arrivals</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">Track Order</a></li>
-                        <li><a href="#">Shipping Policy</a></li>
-                        <li><a href="#">Returns & Exchange</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Newsletter</h4>
-                    <p style="color:#999; font-size:13px; margin-bottom:15px;">Subscribe to receive updates, access to exclusive deals, and more.</p>
-                    <div style="display:flex; border-bottom:1px solid #444; padding-bottom:10px;">
-                        <input type="email" placeholder="Enter your email" style="background:none; border:none; outline:none; color:white; width:100%;">
-                        <button style="background:none; color:white; font-size:12px; font-weight:700; text-transform:uppercase;">Join</button>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                &copy; 2024 One10. Designed & Developed by MintQodeSolutions.
-            </div>
+    <!-- BOTTOM NAVIGATION BAR (FIXED) -->
+    <nav class="bottom-nav">
+        <!-- Toggle Menu -->
+        <div class="nav-icon" onclick="toggleMenu()">
+            <i class="ri-menu-4-line"></i>
         </div>
-    </footer>
-
-    <!-- CART SIDEBAR -->
-    <div class="cart-overlay" onclick="toggleCart()"></div>
-    <div class="cart-drawer" id="cart-drawer">
-        <div style="display:flex; justify-content:space-between; margin-bottom:30px; border-bottom:1px solid #eee; padding-bottom:20px;">
-            <h3 style="text-transform:uppercase; letter-spacing:1px;">Shopping Bag</h3>
-            <i class="ri-close-line" style="font-size:24px; cursor:pointer;" onclick="toggleCart()"></i>
-        </div>
-        <div id="cart-items" style="flex:1; overflow-y:auto;"></div>
-        <div style="border-top:1px solid #eee; padding-top:20px;">
-            <div style="display:flex; justify-content:space-between; font-weight:700; margin-bottom:20px; font-size:18px;">
-                <span>Total</span><span id="drawer-total">Rs. 0</span>
-            </div>
-            <button class="btn-primary" style="width:100%;" onclick="route('checkout')">Proceed to Checkout</button>
-        </div>
-    </div>
-
-    <!-- JS LOGIC -->
-    <script>
-        // DATA
-        const products = [
-            { id: 1, name: "Oversized Hoodie", category: "Men", type: "Hoodie", price: 2500, img: "hoodie.jpg", desc: "Warm fleece hoodie for winter." },
-            { id: 2, name: "Wedding Dress", category: "", type: "Wedding", price: 32000, img: "left1.jpg", desc: "Stylish ripped jeans with comfort fit." },
-            { id: 3, name: "Graphic Tee", category: "Women", type: "Tee", price: 1200, img: "left2.png", desc: "Premium cotton graphic t-shirt." },
-            { id: 4, name: "Velvet Shawl", category: "Women", type: "Shawl", price: 4500, img: "Clothing.png", desc: "Embroidered velvet shawl for events." },
-            { id: 5, name: "Basic Hoodie", category: "Women", type: "", price: 2400, img: "product3.jpg", desc: "Classic basic hoodie in solid color." },
-            { id: 6, name: "Skinny Fit ", category: "Women", type: "Wedding", price: 2800, img: "product6.png", desc: "High waist skinny jeans stretchable." },
-            { id: 7, name: "SoleMates ", category: "Shoes", type: "Shoes", price: 2800, img: "airmax.jpg", desc: " your one step destination for stylis and comfortable shoes." },
-            { id: 8, name: "SoleMates ", category: "Shoes", type: "Shoes", price: 2800, img: "download.jpg", desc: " your one step destination for stylis and comfortable shoes." },
-            { id: 9, name: "SoleMates ", category: "Shoes", type: "Shoes", price: 2800, img: "W-air.jpg", desc: " your one step destination for stylis and comfortable shoes." }
-       
-        ];
-
-        let cart = [];
-        let currentProduct = null;
-        let selectedSize = null;
-
-        // ANIMATION OBSERVER
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-
-        // INIT
-        window.onload = () => { 
-            renderGrid(products, 'home-grid'); 
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        };
-
-        // SCROLL TO TOP LOGIC
-        window.addEventListener('scroll', () => {
-            const btn = document.getElementById('scrollTopBtn');
-            if(window.scrollY > 300) btn.classList.add('active');
-            else btn.classList.remove('active');
-        });
-        function scrollToTop() { window.scrollTo(0, 0); }
-
-        // NAVIGATION
-        function route(page) {
-            document.querySelectorAll('main > div').forEach(el => el.classList.add('hidden'));
-            
-            // Toggle overlays off
-            document.getElementById('mobile-menu').classList.remove('active');
-            toggleCart(false); // Force close cart
-
-            const activeView = document.getElementById('view-' + page);
-            activeView.classList.remove('hidden');
-            activeView.classList.add('fade-in');
-            
-            window.scrollTo(0,0);
-            
-            if(page === 'home') {
-                setTimeout(() => document.querySelectorAll('.reveal').forEach(el => observer.observe(el)), 100);
-            }
-            if(page === 'checkout') updateCheckoutTotal();
-        }
-
-        function filterProducts(filter) {
-            route('shop');
-            const title = document.getElementById('page-title');
-            let filtered = [];
-            
-            if(filter === 'all') {
-                filtered = products;
-                title.innerText = "All Collection";
-            } else {
-                filtered = products.filter(p => p.category === filter || p.type === filter);
-                title.innerText = filter + " Collection";
-            }
-            renderGrid(filtered, 'shop-grid');
-        }
-
-        function renderGrid(list, id) {
-            const container = document.getElementById(id);
-            if(list.length === 0) { container.innerHTML = "<p style='text-align:center; width:100%; color:#999;'>No items found.</p>"; return; }
-            
-            container.innerHTML = list.map((p, i) => `
-                <div class="product-card reveal" onclick="openProduct(${p.id})" style="transition-delay: ${i * 0.1}s">
-                    <div class="p-img"><img src="${p.img}"></div>
-                    <div class="p-info">
-                        <h4>${p.name}</h4>
-                        <span style="color:#666; font-size:14px;">Rs. ${p.price.toLocaleString()}</span>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Re-attach observer for new elements
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        }
-
-        // TOGGLES
-        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('active'); }
         
-        function toggleCart(forceState) { 
-            const drawer = document.getElementById('cart-drawer');
-            const overlay = document.querySelector('.cart-overlay');
-            
-            if (forceState === false || drawer.classList.contains('open')) {
-                drawer.classList.remove('open'); overlay.style.display='none';
-            } else {
-                drawer.classList.add('open'); overlay.style.display='block';
-            }
-        }
+        <!-- Search (Visual Only) -->
+        <div class="nav-icon" onclick="alert('Search feature coming soon!')">
+            <i class="ri-search-line"></i>
+        </div>
 
-        // PRODUCT LOGIC
-        function openProduct(id) {
-            currentProduct = products.find(p => p.id === id);
-            selectedSize = null;
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('error-msg').style.display='none';
-            
-            document.getElementById('pdp-image').src = currentProduct.img;
-            document.getElementById('pdp-name').innerText = currentProduct.name;
-            document.getElementById('pdp-cat').innerText = currentProduct.type;
-            document.getElementById('pdp-price').innerText = "Rs. " + currentProduct.price.toLocaleString();
-            document.getElementById('pdp-desc').innerText = currentProduct.desc;
-            
-            route('pdp');
-        }
-
-        function selectSize(btn, size) {
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            selectedSize = size;
-            document.getElementById('error-msg').style.display='none';
-        }
-
-        function addToCart() {
-            if(!selectedSize) { document.getElementById('error-msg').style.display='block'; return; }
-            cart.push({...currentProduct, size: selectedSize});
-            updateCart();
-            toggleCart();
-        }
-
-        function updateCart() {
-            document.getElementById('cart-count').innerText = cart.length;
-            const container = document.getElementById('cart-items');
-            let total = 0;
-            
-            if(cart.length === 0) container.innerHTML = "<p style='text-align:center; color:#999; margin-top:40px;'>Your bag is empty.</p>";
-            else {
-                container.innerHTML = cart.map((item, i) => {
-                    total += item.price;
-                    return `
-                    <div style="display:flex; gap:15px; margin-bottom:20px; border-bottom:1px solid #f5f5f5; padding-bottom:15px;">
-                        <img src="${item.img}" style="width:60px; height:75px; object-fit:cover;">
-                        <div style="flex:1;">
-                            <div style="font-size:13px; font-weight:700; margin-bottom:5px;">${item.name}</div>
-                            <div style="font-size:12px; color:#666;">Size: ${item.size}</div>
-                            <div style="font-size:14px; margin-top:5px;">Rs. ${item.price.toLocaleString()}</div>
-                        </div>
-                        <i class="ri-delete-bin-line" style="color:#ff4d4d; cursor:pointer;" onclick="cart.splice(${i},1); updateCart();"></i>
-                    </div>`;
-                }).join('');
-            }
-            document.getElementById('drawer-total').innerText = "Rs. " + total.toLocaleString();
-        }
-
-        // CHECKOUT
-        function updateCheckoutTotal() {
-            const total = cart.reduce((acc, item) => acc + item.price, 0);
-            document.getElementById('checkout-total').innerText = "Rs. " + total.toLocaleString();
-        }
-
-        function placeOrder(e) {
-            e.preventDefault();
-            if(cart.length === 0) return alert("Cart is empty");
-            
-            const name = document.getElementById('c-name').value;
-            const address = document.getElementById('c-address').value;
-            const items = cart.map(i => `${i.name} (${i.size})`).join(', ');
-            const total = document.getElementById('checkout-total').innerText;
-            
-            const msg = `New Order!%0AName: ${name}%0AAddress: ${address}%0AItems: ${items}%0ATotal: ${total}`;
-            window.open(`https://wa.me/923001234567?text=${msg}`, '_blank');
-        }
-    </script>
-</body>
-</html>
+        <!-- Home Button -->
+        <div class="nav-icon active" onclick="
